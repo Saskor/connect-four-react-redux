@@ -23,6 +23,7 @@ function matches(x, y, cells) {
       return player;
     }
   }
+  count = 0;
   //Horizontal check
   for (let i = 0; i < height; i++) {
     if (cells[i][y] === player) {
@@ -40,16 +41,16 @@ function matches(x, y, cells) {
   let yMinTop = 0;
   let xMinBottom = 0;
   let yMinBottom = 0;
-  if (x < width - 3 && y < height - 3) {
-    if (y > x) {
-      yMinTop = y - x;
-      yMinBottom = y + x;
-    }
-    if (x > y) {
-      xMinTop = x - y;
-      yMinBottom = x + y;
-    }
+
+  if (y > x) {
+    yMinTop = y - x;
+    yMinBottom = y + x;
   }
+  if (x > y) {
+    xMinTop = x - y;
+    yMinBottom = x + y;
+  }
+  count = 0;
   //check to bottom right diagonal
   for (
     let col = xMinTop, row = yMinTop;
@@ -63,6 +64,7 @@ function matches(x, y, cells) {
       count = 0;
     }
   }
+  count = 0;
   //check to top right diagonal
   for (
     let col = xMinBottom, row = yMinBottom;

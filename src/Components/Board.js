@@ -51,7 +51,6 @@ export default class Board extends React.Component {
   }
 
   render() {
-    console.log(this.state.inserts);
     let status = "";
     let refreshGameLink = null;
     if (!this.state.isActive) {
