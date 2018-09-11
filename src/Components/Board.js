@@ -53,8 +53,10 @@ export default class Board extends React.Component {
   render() {
     let status = "";
     let refreshGameLink = null;
+    const cellsArray = this.state.cells;
+    const maxInserts = cellsArray.length * cellsArray[0].length;
     if (!this.state.isActive) {
-      if (this.state.inserts >= 42) {
+      if (this.state.inserts >= maxInserts) {
         status = `No one wins! `;
       } else {
         status = `${this.state.winner} wins! `;
