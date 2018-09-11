@@ -6,51 +6,64 @@ export default matches;
  */
 
 function matches(x, y, cells) {
-  const width = cells.length;
-  const height = cells[x].length;
-  const player = cells[x][y]; //player ID
+  //debugger;
+  let width = cells.length;
+  let height = cells[x].length;
+  let player = cells[x][y]; //player ID
   let count = 0;
 
   // Vertical check
-  for (let i = 0; i < width; i++) {
+  for (let i = 0; i < height; i++) {
     if (cells[x][i] === player) {
       count++;
     } else {
       count = 0;
     }
-
     if (count >= 4) {
       return player;
     }
   }
   count = 0;
   //Horizontal check
-  for (let i = 0; i < height; i++) {
+  for (let i = 0; i < width; i++) {
     if (cells[i][y] === player) {
       count++;
     } else {
       count = 0;
     }
-
     if (count >= 4) {
       return player;
     }
   }
-  //diagonal check
-  let xMinTop = 0;
-  let yMinTop = 0;
-  let xMinBottom = 0;
-  let yMinBottom = 0;
-
-  if (y > x) {
-    yMinTop = y - x;
-    yMinBottom = y + x;
-  }
-  if (x > y) {
-    xMinTop = x - y;
-    yMinBottom = x + y;
-  }
   count = 0;
+  //diagonal check
+  let xMinTop;
+  let yMinTop;
+  let xMinBottom;
+  let yMinBottom;
+  //defined top left begin of diagonal
+  for (let col = x, row = y; row > -1 && col > -1; row--, col--) {
+    if (col < 1) {
+      xMinTop = col;
+      yMinTop = row;
+    }
+    if (row < 1) {
+      xMinTop = col;
+      yMinTop = row;
+    }
+  }
+  //defined bottom left begin of diagonal
+  for (let col = x, row = y; row < height && col > -1; row++, col--) {
+    if (col < 1) {
+      xMinBottom = col;
+      yMinBottom = row;
+    }
+    if (row > height - 2) {
+      xMinBottom = col;
+      yMinBottom = row;
+    }
+  }
+
   //check to bottom right diagonal
   for (
     let col = xMinTop, row = yMinTop;
@@ -59,9 +72,11 @@ function matches(x, y, cells) {
   ) {
     if (cells[col][row] === player) {
       count++;
-      if (count >= 4) return player;
     } else {
       count = 0;
+    }
+    if (count >= 4) {
+      return player;
     }
   }
   count = 0;
@@ -73,9 +88,11 @@ function matches(x, y, cells) {
   ) {
     if (cells[col][row] === player) {
       count++;
-      if (count >= 4) return player;
     } else {
       count = 0;
+    }
+    if (count >= 4) {
+      return player;
     }
   }
 }
