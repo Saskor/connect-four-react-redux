@@ -22,9 +22,7 @@ ul {
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-weight: bold;
   height: 40px;
-  margin-right: -1px;
   margin-top: -1px;
   width: 40px;
 }
@@ -48,6 +46,7 @@ ul {
 .column {
   width: 40px;
   float: left;
+  margin-right: -1px;
 }
 
 .game {
