@@ -1,12 +1,16 @@
-export default addChip;
-
 /**
  * add chip to available cell in boardColumn
  * of boardCells
  * @return {void}
  */
 
-function addChip(boardCells, boardColumn) {
+function addChip(
+  boardCells,
+  boardColumn,
+  redIsNext,
+  lastInserts,
+  lastChipPosition
+) {
   const cells = boardCells.slice();
   const column = cells[boardColumn].slice();
   let cellIndex = -1;
@@ -18,18 +22,24 @@ function addChip(boardCells, boardColumn) {
   });
 
   if (cellIndex == -1) {
-    return;
+    return {
+      cells: boardCells,
+      redIsNext: redIsNext,
+      inserts: lastInserts,
+      lastChipPosition: lastChipPosition
+    };
   }
 
-  column[cellIndex] = this.state.redIsNext ? "Red" : "Yellow";
+  column[cellIndex] = redIsNext ? "Red" : "Yellow";
   cells[boardColumn] = column;
-  let inserts = this.state.inserts + 1;
+  let inserts = lastInserts + 1;
 
-  this.setState({
+  return {
     cells: cells,
-    redIsNext: !this.state.redIsNext,
-    inserts: inserts
-  });
-
-  return cellIndex;
+    redIsNext: !redIsNext,
+    inserts: inserts,
+    lastChipPosition: { x: boardColumn, y: cellIndex }
+  };
 }
+
+export default addChip;

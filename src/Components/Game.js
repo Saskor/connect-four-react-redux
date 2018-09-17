@@ -1,13 +1,11 @@
 import React from "react";
-import Board from "./Board";
+import BoardContainer from "../containers/BoardContainer";
 
-export default class Game extends React.Component {
-  render() {
-    return (
-      <div className="game">
-        <h3 className="header">Connect four</h3>
-        <Board />
-      </div>
-    );
-  }
-}
+const Game = () => (
+  <div className="game">
+    <h3 className="header">Connect four</h3>
+    <BoardContainer />
+  </div>
+);
+
+export default Game;

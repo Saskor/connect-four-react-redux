@@ -1,5 +1,3 @@
-export default matches;
-
 /**
  * Iterates over row, column, and two crossed diagonals
  * where last chip was added
@@ -8,18 +6,26 @@ export default matches;
  * @return {String}
  */
 
-function matches(x, y, cells) {
-  let width = cells.length;
-  let height = cells[x].length;
-  let player = cells[x][y]; //player ID
-  let winner =
+function matches(x, y, cells, inserts) {
+  const width = cells.length;
+  const height = cells[x].length;
+  const maxInserts = width * height;
+  const player = cells[x][y]; //player ID
+  const winner =
     verticalCheck(x, cells, height, player) ||
     horizontalCheck(y, cells, width, player) ||
     diagonalCheck(x, y, width, height, cells, player);
   if (winner) {
-    this.setState({
-      winner: winner
-    });
+    return {
+      winner: winner,
+      draw: false
+    };
+  }
+  if (inserts >= maxInserts) {
+    return {
+      winner: "",
+      draw: true
+    };
   }
 }
 
@@ -120,3 +126,5 @@ function diagonalCheck(x, y, width, height, cells, player) {
     }
   }
 }
+
+export default matches;
