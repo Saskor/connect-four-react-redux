@@ -2,6 +2,7 @@ import React from "react";
 import matches from "../CheckWinFunc/Matches";
 import Cell from "./Cell";
 import RefreshGameLink from "./RefreshGameLink";
+import addChip from "../actions/actions";
 
 export default class Board extends React.Component {
   constructor(props) {
@@ -9,36 +10,19 @@ export default class Board extends React.Component {
     this.state = {
       cells: Array(7).fill(Array(6).fill(null)),
       redIsNext: true,
-      isActive: true,
-      inserts: 0
+      inserts: 0,
+      maxInserts: this.cells.length * this.cells[0].length,
+      winner: ""
     };
   }
 
-  handleClick(x) {
-    if (!this.state.isActive) {
+  handleClick(column) {
+    if (this.state.winner || this.state.inserts >= this.state.maxInserts) {
       return;
     }
-    const cells = this.state.cells.slice();
-    const column = cells[x].slice();
-    let cellIndex = -1;
-    let winner = "";
-    column.forEach(columnCell => {
-      if (columnCell === null) {
-        cellIndex++;
-      }
-    });
-    if (cellIndex >= 0) {
-      column[cellIndex] = this.state.redIsNext ? "Red" : "Yellow";
-      cells[x] = column;
-      winner = matches(x, cellIndex, cells);
-      let inserts = this.state.inserts + 1;
-      this.setState({
-        cells: cells,
-        redIsNext: !this.state.redIsNext,
-        isActive: !winner,
-        winner: winner,
-        inserts: inserts
-      });
+    const cellIndex = addChip(this.state.cells, column);
+    if (cellIndex) {
+      matches(column, cellIndex, this.state.cells);
     }
   }
 
@@ -46,17 +30,16 @@ export default class Board extends React.Component {
     this.setState({
       cells: Array(7).fill(Array(6).fill(null)),
       redIsNext: true,
-      isActive: true
+      inserts: 0,
+      winner: ""
     });
   }
 
   render() {
     let status = "";
     let refreshGameLink = null;
-    const cellsArray = this.state.cells;
-    const maxInserts = cellsArray.length * cellsArray[0].length;
-    if (!this.state.isActive) {
-      if (this.state.inserts >= maxInserts) {
+    if (!this.state.winner) {
+      if (this.state.inserts >= this.state.maxInserts) {
         status = `No one wins! `;
       } else {
         status = `${this.state.winner} wins! `;

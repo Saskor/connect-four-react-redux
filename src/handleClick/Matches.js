@@ -16,6 +16,11 @@ function matches(x, y, cells) {
     verticalCheck(x, cells, height, player) ||
     horizontalCheck(y, cells, width, player) ||
     diagonalCheck(x, y, width, height, cells, player);
+  if (winner) {
+    this.setState({
+      winner: winner
+    });
+  }
 }
 
 // Vertical check
@@ -32,7 +37,6 @@ function verticalCheck(x, cells, height, player) {
     if (count >= 4) {
       return player;
     }
-    return "";
   }
 }
 //Horizontal check
@@ -49,7 +53,6 @@ function horizontalCheck(y, cells, width, player) {
     if (count >= 4) {
       return player;
     }
-    return "";
   }
 }
 //Diagonal check
@@ -115,6 +118,5 @@ function diagonalCheck(x, y, width, height, cells, player) {
     if (count >= 4) {
       return player;
     }
-    return "";
   }
 }
